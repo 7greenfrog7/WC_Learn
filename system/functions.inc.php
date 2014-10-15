@@ -998,7 +998,7 @@ function is_mobile()
 	
 	if (preg_match('/playstation/i', $user_agent) OR preg_match('/ipad/i', $user_agent) OR preg_match('/ucweb/i', $user_agent))
 	{
-		return false;
+		return false;  //playstation 日本的游戏掌机，估计也可以联网，ipad不行吗，ipad腾讯浏览器可以，header乱了点，safri和T浏览器一样的效果
 	}
 	
 	if (preg_match('/iemobile/i', $user_agent) OR preg_match('/mobile\ssafari/i', $user_agent) OR preg_match('/iphone\sos/i', $user_agent) OR preg_match('/android/i', $user_agent) OR preg_match('/symbian/i', $user_agent) OR preg_match('/series40/i', $user_agent))
