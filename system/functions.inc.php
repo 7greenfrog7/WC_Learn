@@ -238,7 +238,7 @@ function convert_encoding_array($data, $from_encoding = 'GBK', $target_encoding 
 }
 
 /**
- * 双字节语言版 strpos
+ * 双字节语言版 strpos函数返回字符串在另一个字符串中第一次出现的位置。
  * 
  * 使用方法同 strpos()
  * 
