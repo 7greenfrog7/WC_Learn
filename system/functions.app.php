@@ -74,7 +74,7 @@ function download_url($file_name, $url)
 	return get_js_url('/file/download/file_name-' . base64_encode($file_name) . '__url-' . base64_encode($url));
 }
 
-// 检测当前操作是否需要验证码
+//检测当前操作是否需要验证码，每一个分支都是唯一出口，感觉是响应ajax的函数
 function human_valid($permission_tag)
 {
 	if (! is_array(AWS_APP::session()->human_valid))
@@ -102,7 +102,7 @@ function human_valid($permission_tag)
 	
 	return FALSE;
 }
-
+//每一个分支都是唯一出口，感觉是响应ajax的函数
 function set_human_valid($permission_tag)
 {
 	if (! is_array(AWS_APP::session()->human_valid))
