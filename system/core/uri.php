@@ -50,7 +50,7 @@ class core_uri
 			$this->index_script = G_INDEX_SCRIPT;
 		}
 		
-		if ($_SERVER['REQUEST_URI'])
+		if ($_SERVER['REQUEST_URI'])//REQUEST_URI='/?a=5&b=7'
 		{
 			if (isset($_SERVER['HTTP_X_REWRITE_URL']))
 			{
