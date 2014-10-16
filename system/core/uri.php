@@ -31,8 +31,8 @@ class core_uri
 	var $controller = '';
 	var $action = '';
 	
-	var $request_main = '';
-	var $index_script = '';
+	var $request_main = '';  //format：/homepage.php?p=222&q=biuuu  请求的主体部分，这是正常的URI
+	var $index_script = '';  //format:?/
 
 	public function __construct()
 	{
@@ -49,21 +49,23 @@ class core_uri
 		{
 			$this->index_script = G_INDEX_SCRIPT;
 		}
+		
+		/**
+		 * REQUEST_URI FORMATION
+		 * http://www.biuuu.com/?p=222&q=biuuu
+		 * QUERY_URI="/?p=222&q=biuuu"
+		 * http://www.biuuu.com/index.php?p=222&q=biuuu
+		 * QUERY_URI="/index.php?p=222&q=biuuu"
+		 */
 		if ($_SERVER['REQUEST_URI'])//在Apache环境下，判断页面是否URI重定向只需要判断这个值存在的情况就既可，。
-		//http://www.biuuu.com/?p=222&q=biuuu
-		//QUERY_URI="/?p=222&q=biuuu"
-		//http://www.biuuu.com/index.php?p=222&q=biuuu
-		//QUERY_URI="/index.php?p=222&q=biuuu"
-
 		{
 			if (isset($_SERVER['HTTP_X_REWRITE_URL'])) //ISAPI环境下,判断是否重定向
-			 
 			{
 				$request_main = $_SERVER['HTTP_X_REWRITE_URL'];
 			}
 			else
 			{
-				$request_main = $_SERVER['REQUEST_URI'];
+				$request_main = $_SERVER['REQUEST_URI'];  //请求的主体部分
 			}
 			
 			$requests = explode($this->index_script, $request_main);
@@ -149,7 +151,7 @@ class core_uri
 		return $request_main; 
 	}
 	
-	public function set_rewrite() //设置url重写
+	public function set_rewrite() //设置url重写，为了获取应用目录的对象，获得关于应用目录的信息
 	{
 		if (!defined('G_INDEX_SCRIPT'))
 		{

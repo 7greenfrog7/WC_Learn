@@ -56,13 +56,14 @@ class AWS_APP
 		
 		load_class('core_uri')->set_rewrite();
 		
-		if (!$app_dir = load_class('core_uri')->app_dir)
+		if (!$app_dir = load_class('core_uri')->app_dir)//根据用户在地址栏输入的url分析出，用户访问的是APP/下的哪一个应用目录
 		{
-			$app_dir = ROOT_PATH . 'app/home/';
+			$app_dir = ROOT_PATH . 'app/home/';  // if $app_dir = ''= null = false,then turn to homepage
 		}
 
 		// 传入应用目录,返回控制器对象
-		$handle_controller = self::create_controller(load_class('core_uri')->controller, $app_dir);//感觉应该是目录对象
+		$handle_controller = self::create_controller(load_class('core_uri')->controller, $app_dir);
+		//根据用户在地址栏输入的url分析出，用户访问的是APP/X/下的哪一个控制器，有两个main和ajax
 		$action_method = load_class('core_uri')->action . '_action';//解析url请求的动作
 		// 判断
 		if (! is_object($handle_controller) OR ! method_exists($handle_controller, $action_method))
@@ -78,7 +79,7 @@ class AWS_APP
 		// 判断访问规则使用白名单还是黑名单, 默认使用黑名单
 		if ($access_rule)
 		{			
-			// 黑名单, 黑名单中的检查 'white' 白名单,白名单以外的检查 (默认是黑名单检查)
+			// 黑名单, 黑名单中的检查 'white' ;白名单,白名单以外的检查 (默认是黑名单检查)
 			if (isset($access_rule['rule_type']) AND $access_rule['rule_type'] == 'white')
 			{
 				if ((! $access_rule['actions']) OR (! in_array(load_class('core_uri')->action, $access_rule['actions'])))
