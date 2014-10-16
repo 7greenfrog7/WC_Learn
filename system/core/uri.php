@@ -36,7 +36,7 @@ class core_uri
 
 	public function __construct()
 	{
-		if (!defined('G_INDEX_SCRIPT'))
+		if (!defined('G_INDEX_SCRIPT'))//   G_INDEX_SCRIPT='?/' <config.dist.php>
 		{
 			return false;
 		}
@@ -50,9 +50,18 @@ class core_uri
 			$this->index_script = G_INDEX_SCRIPT;
 		}
 		
+<<<<<<< HEAD
 		if ($_SERVER['REQUEST_URI'])//REQUEST_URI='/?a=5&b=7'
+=======
+		if ($_SERVER['REQUEST_URI'])//在Apache环境下，判断页面是否URI重定向只需要判断这个值存在的情况就既可，。
+		//http://www.biuuu.com/?p=222&q=biuuu
+		//QUERY_URI="/?p=222&q=biuuu"
+		//http://www.biuuu.com/index.php?p=222&q=biuuu
+		//QUERY_URI="/index.php?p=222&q=biuuu"
+>>>>>>> origin/master
 		{
-			if (isset($_SERVER['HTTP_X_REWRITE_URL']))
+			if (isset($_SERVER['HTTP_X_REWRITE_URL'])) //ISAPI环境下,判断是否重定向
+			 
 			{
 				$request_main = $_SERVER['HTTP_X_REWRITE_URL'];
 			}
@@ -62,12 +71,22 @@ class core_uri
 			}
 			
 			$requests = explode($this->index_script, $request_main);
-			
+			//QUERY_URI="/index.php?p=222&q=biuuu"
+			//QUERY_URI="/?p=222&q=biuuu"
+			//$requests=Array ( [0] => app/home [1] => p=222&q=biuuu ) 
 			if (count($requests) == 1 AND dirname($_SERVER['SCRIPT_NAME']) != '/')
+			//http://www.biuuu.com/?p=222&q=biuuu
+			//QUERY_URI="/index.php?p=222&q=biuuu"
+			//http://www.biuuu.com/index.php?p=222&q=biuuu
+			//$_SERVER["SCRIPT_NAME"]="/index.php"
 			{
 				$request_main = preg_replace('/^' . preg_quote(dirname($_SERVER['SCRIPT_NAME']), '/') . '/i', '', $request_main);
+				//$request_main=			
 			}
 			else if (count($requests) == 2)
+			//QUERY_URI="/index.php?p=222&q=biuuu"
+			//QUERY_URI="/?p=222&q=biuuu"
+			//$requests=Array ( [0] => /index.php?p=222&q=biuuu )
 			{
 				if ($requests[0] != '/')
 				{
@@ -110,7 +129,7 @@ class core_uri
  	 * @category	Front-controller
  	 * @author		WeCenter Dev Team
  	 */
-	public function parse_uri($request_main)
+	public function parse_uri($request_main)//需要返回什么。
 	{
 		if (get_setting('url_rewrite_enable') == 'Y' AND $request_routes = get_request_route(false))
 		//AND 后面的意思可能是获取到的$request_routes不为空
@@ -183,8 +202,8 @@ class core_uri
 		);
 		
 		$__app_dir = $this->default_vars['app_dir'];	// 应用目录
-		$this->controller = $this->default_vars['controller'];	// 控制器
-		$this->action = $this->default_vars['action'];	// 动作
+		$this->controller = $this->default_vars['controller'];	// 控制器main 
+		$this->action = $this->default_vars['action'];	// 动作 index
 		
 		$args_var_str = '';
 		

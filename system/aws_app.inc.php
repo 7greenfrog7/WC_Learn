@@ -51,6 +51,7 @@ class AWS_APP
 	 */
 	public static function run()
 	{
+		//系统初始化步骤
 		self::init();
 		
 		load_class('core_uri')->set_rewrite();
@@ -61,10 +62,8 @@ class AWS_APP
 		}
 
 		// 传入应用目录,返回控制器对象
-		$handle_controller = self::create_controller(load_class('core_uri')->controller, $app_dir);
-		
-		$action_method = load_class('core_uri')->action . '_action';
-		
+		$handle_controller = self::create_controller(load_class('core_uri')->controller, $app_dir);//感觉应该是目录对象
+		$action_method = load_class('core_uri')->action . '_action';//解析url请求的动作
 		// 判断
 		if (! is_object($handle_controller) OR ! method_exists($handle_controller, $action_method))
 		{
@@ -107,19 +106,22 @@ class AWS_APP
 	 */
 	private static function init()
 	{
+		//set_exception_handler参数中描述的函数必须在调用 set_exception_handler() 函数之前定义。
 		set_exception_handler(array('AWS_APP', 'exception_handle'));
-		
 		self::$config = load_class('core_config');
 		self::$db = load_class('core_db');
-		
 		self::$plugins = load_class('core_plugins');
+		self::$settings = self::model('setting')->get_settings();//获取系统设置
 		
-		self::$settings = self::model('setting')->get_settings();
-		 
-		if ((!defined('G_SESSION_SAVE') OR G_SESSION_SAVE == 'db') AND get_setting('db_version') > 20121123)
+		if ((!defined('G_SESSION_SAVE') OR G_SESSION_SAVE == 'db') AND get_setting('db_version') > 20121123)//获取系统设置
+		//get_setting()在index.php中被require载入，所以在此可以直接调用
+		//get_setting()最后还是调用AWS_APP下的$setting的初始化方法self::$settings = self::model('setting')->get_settings();
+		///models/setting.php中get_settings()是查询数据库，system_settings字段
+		//未定义SESSION的存储方式，或者定义为存储在数据库 并且数据库版本一定要大于20121123
 		{
 			Zend_Session::setSaveHandler(new Zend_Session_SaveHandler_DbTable(array(
-			    'name' 					=> get_table('sessions'),
+			//Zend库,设置用户自定义会话存储函数
+			    'name' 					=> get_table('sessions'),//functions.inc.php->get_table获取带表前缀的数据库表名
 			    'primary'				=> 'id',
 			    'modifiedColumn'		=> 'modified',
 			    'dataColumn'			=> 'data',
@@ -135,30 +137,30 @@ class AWS_APP
 			'cookie_domain' => G_COOKIE_DOMAIN
 		));
 		
-		if (G_SESSION_SAVE == 'file' AND G_SESSION_SAVE_PATH)
+		if (G_SESSION_SAVE == 'file' AND G_SESSION_SAVE_PATH) //config.dist.php
 		{
 			Zend_Session::setOptions(array(
 				'save_path' => G_SESSION_SAVE_PATH
 			));
 		}
 		
-		Zend_Session::start();
+		Zend_Session::start(); //session开始
 		
 		self::$session = new Zend_Session_Namespace(G_COOKIE_PREFIX . '_Anwsion');
 		
-		if ($default_timezone = get_setting('default_timezone'))
+		if ($default_timezone = get_setting('default_timezone'))//存在
 		{
-			date_default_timezone_set($default_timezone);
+			date_default_timezone_set($default_timezone); //php原生函数
 		}
 
 		$img_url = get_setting('img_url');
 		$base_url = get_setting('base_url');
-		
+		 
 		! empty($img_url) ? define('G_STATIC_URL', $img_url) : define('G_STATIC_URL', $base_url . '/static');
-		
+		//需要看一下：这边为什么要用到crond
 		if (self::config()->get('system')->debug)
 		{
-			if ($cornd_timer = self::cache()->getGroup('crond'))
+			if ($cornd_timer = self::cache()->getGroup('crond'))//crond可定义计划任务； 任务调度守护进程 
 			{				
 				foreach ($cornd_timer AS $cornd_tag)
 				{
