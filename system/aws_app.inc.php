@@ -62,8 +62,8 @@ class AWS_APP
 		}
 
 		// 传入应用目录,返回控制器对象
-		$handle_controller = self::create_controller(load_class('core_uri')->controller, $app_dir);
-		$action_method = load_class('core_uri')->action . '_action';
+		$handle_controller = self::create_controller(load_class('core_uri')->controller, $app_dir);//感觉应该是目录对象
+		$action_method = load_class('core_uri')->action . '_action';//解析url请求的动作
 		// 判断
 		if (! is_object($handle_controller) OR ! method_exists($handle_controller, $action_method))
 		{
