@@ -49,16 +49,12 @@ class core_uri
 		{
 			$this->index_script = G_INDEX_SCRIPT;
 		}
-		
-<<<<<<< HEAD
-		if ($_SERVER['REQUEST_URI'])//REQUEST_URI='/?a=5&b=7'
-=======
 		if ($_SERVER['REQUEST_URI'])//在Apache环境下，判断页面是否URI重定向只需要判断这个值存在的情况就既可，。
 		//http://www.biuuu.com/?p=222&q=biuuu
 		//QUERY_URI="/?p=222&q=biuuu"
 		//http://www.biuuu.com/index.php?p=222&q=biuuu
 		//QUERY_URI="/index.php?p=222&q=biuuu"
->>>>>>> origin/master
+
 		{
 			if (isset($_SERVER['HTTP_X_REWRITE_URL'])) //ISAPI环境下,判断是否重定向
 			 
