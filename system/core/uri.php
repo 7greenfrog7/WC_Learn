@@ -110,7 +110,7 @@ class core_uri
  	 * @category	Front-controller
  	 * @author		WeCenter Dev Team
  	 */
-	public function parse_uri($request_main)
+	public function parse_uri($request_main)//需要返回什么。
 	{
 		if (get_setting('url_rewrite_enable') == 'Y' AND $request_routes = get_request_route(false))
 		//AND 后面的意思可能是获取到的$request_routes不为空
