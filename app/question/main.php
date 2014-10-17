@@ -20,6 +20,7 @@ if (!defined('IN_ANWSION'))
 
 class main extends AWS_CONTROLLER
 {
+	//获取关于进入（此处仅指进入，而不是在这个页面中的各个功能）此应用的所有动作
 	public function get_access_rule()
 	{
 		$rule_action['rule_type'] = 'white';
@@ -34,7 +35,7 @@ class main extends AWS_CONTROLLER
 		
 		return $rule_action;
 	}
-
+	//据我推测，应该是
 	public function index_action()
 	{
 		if (! isset($_GET['id']))
@@ -395,7 +396,7 @@ class main extends AWS_CONTROLLER
 		
 		TPL::output('question/index');
 	}
-	
+	//据我推测，应该是问题广场的页面
 	public function square_action()
 	{
 		$this->crumb(AWS_APP::lang()->_t('问题'), '/question/square');
