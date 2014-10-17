@@ -103,7 +103,7 @@ function ajax_post(formEl, processer) // 表单对象，用 jQuery 获取，回�
         _post_type: 'ajax'
     };
 
-    formEl.ajaxSubmit(
+    formEl.ajaxSubmit( //可以不需要添加url，因为action中已经包含要提交的url
     {
         dataType: 'json',
         data: custom_data,
