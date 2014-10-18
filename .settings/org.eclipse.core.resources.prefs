@@ -1,7 +1,10 @@
-#Fri Oct 17 01:26:09 GMT 2014
+#Sat Oct 18 08:21:47 GMT 2014
 eclipse.preferences.version=1
 encoding//system/functions.inc.php=UTF-8
 encoding//views/default/account=UTF-8
 encoding//views/default/account/login.tpl.htm=UTF-8
 encoding//views/default/account/weixin_login.tpl.htm=UTF-8
+encoding//views/default/explore/index.tpl.htm=UTF-8
+encoding//views/default/global/header.tpl.htm=UTF-8
+encoding//views/default/home/index.tpl.htm=UTF-8
 encoding/<project>=UTF-8
